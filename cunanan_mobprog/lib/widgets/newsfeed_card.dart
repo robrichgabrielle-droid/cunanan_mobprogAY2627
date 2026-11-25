@@ -11,16 +11,16 @@ class NewsFeedCard extends StatelessWidget {
     required this.postContent,
     required this.date,
     this.numOfLikes = 0,
-    this.imagePath,
     this.avatarPath,
+    this.imagePath,
   });
 
   final String userName;
   final String postContent;
   final String date;
   final int numOfLikes;
-  final String? imagePath;
   final String? avatarPath;
+  final String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +35,10 @@ class NewsFeedCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20.r,
-                  child: avatarPath == null
-                      ? const Icon(Icons.person)
-                      : Image.asset(
-                          avatarPath!,
-                          width: 40.r,
-                          height: 40.r,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.person),
-                        ),
+                  backgroundImage: avatarPath == null
+                      ? null
+                      : AssetImage(avatarPath!),
+                  child: avatarPath == null ? const Icon(Icons.person) : null,
                 ),
                 SizedBox(width: 10.w),
                 Expanded(
@@ -74,66 +68,54 @@ class NewsFeedCard extends StatelessWidget {
                 const Icon(Icons.more_horiz),
               ],
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 5.h),
             CustomText(text: postContent, fontSize: 12.sp, color: Colors.black),
             if (imagePath != null) ...[
               SizedBox(height: 8.h),
               ClipRRect(
-                borderRadius: BorderRadius.circular(8.r),
-                child: SizedBox(
+                borderRadius: BorderRadius.circular(6.r),
+                child: Image.asset(
+                  imagePath!,
                   width: double.infinity,
-                  height: 200.h,
-                  child: Image.asset(
-                    imagePath!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Placeholder(),
-                  ),
+                  height: 220.h,
+                  fit: BoxFit.cover,
                 ),
               ),
             ],
-            SizedBox(height: 4.h),
+            SizedBox(height: 5.h),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
-                  child: PostActionButton(
-                    icon: Icons.thumb_up,
-                    label: numOfLikes.toString(),
-                    onPressed: () {},
-                  ),
+                PostActionButton(
+                  icon: Icons.thumb_up_outlined,
+                  label: numOfLikes.toString(),
+                  onPressed: () {},
                 ),
-                Expanded(
-                  child: PostActionButton(
-                    icon: Icons.comment,
-                    label: 'Comment',
-                    onPressed: () {},
-                  ),
+                PostActionButton(
+                  icon: Icons.comment_outlined,
+                  label: 'Comment',
+                  onPressed: () {},
                 ),
-                Expanded(
-                  child: PostActionButton(
-                    icon: Icons.redo,
-                    label: 'Share',
-                    onPressed: () {},
-                  ),
+                PostActionButton(
+                  icon: Icons.redo,
+                  label: 'Share',
+                  onPressed: () {},
                 ),
               ],
             ),
-            SizedBox(height: 4.h),
+            SizedBox(height: 8.h),
             Row(
               children: [
-                CircleAvatar(
-                  radius: 16.r,
-                  child: const Icon(Icons.person, size: 18),
-                ),
+                const CircleAvatar(radius: 20, child: Icon(Icons.person)),
                 SizedBox(width: 10.w),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     alignment: Alignment.centerLeft,
-                    height: 36.h,
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    height: 32.h,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(18.r),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: CustomText(
                       text: 'Write a comment...',
@@ -172,23 +154,11 @@ class PostActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return TextButton.icon(
       onPressed: onPressed,
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 4.w),
-        foregroundColor: FB_DARK_PRIMARY,
-      ),
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: FB_DARK_PRIMARY),
-            SizedBox(width: 4.w),
-            Text(label, style: const TextStyle(color: FB_DARK_PRIMARY)),
-          ],
-        ),
-      ),
+      icon: Icon(icon, size: 18.sp),
+      label: Text(label),
+      style: TextButton.styleFrom(foregroundColor: FB_DARK_PRIMARY),
     );
   }
 }
