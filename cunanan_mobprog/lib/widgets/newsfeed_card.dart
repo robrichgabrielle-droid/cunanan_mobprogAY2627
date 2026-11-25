@@ -106,7 +106,10 @@ class NewsFeedCard extends StatelessWidget {
             SizedBox(height: 8.h),
             Row(
               children: [
-                const CircleAvatar(radius: 20, child: Icon(Icons.person)),
+                CircleAvatar(
+                  radius: 20.r,
+                  backgroundImage: const AssetImage('assets/assets/images/pfp1.jpg'),
+                ),
                 SizedBox(width: 10.w),
                 Expanded(
                   child: Container(

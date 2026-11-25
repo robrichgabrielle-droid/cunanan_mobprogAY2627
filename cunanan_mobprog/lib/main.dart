@@ -9,22 +9,24 @@ void main() => runApp(const RoblesFacebook());
 class RoblesFacebook extends StatelessWidget {
   const RoblesFacebook({super.key});
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _withScreenUtil(Widget screen) {
     return ScreenUtilInit(
       designSize: const Size(412, 715),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (_, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Facebook Replication',
-          initialRoute: '/home',
-          routes: {
-            '/newsfeed': (context) => const NewsFeedScreen(),
-            '/home': (context) => const HomeScreen(),
-          },
-        );
+      builder: (_, _) => screen,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Facebook Replication',
+      home: _withScreenUtil(const HomeScreen()),
+      routes: {
+        '/newsfeed': (context) => _withScreenUtil(const NewsFeedScreen()),
+        '/home': (context) => _withScreenUtil(const HomeScreen()),
       },
     );
   }
